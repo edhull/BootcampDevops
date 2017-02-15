@@ -7,5 +7,5 @@ RUN groupadd appuser && \
     useradd appuser -r -s appuser appuser
 COPY ["printnode", "/appcontainer/printnode"]
 USER appuser
-EXPOSE 8080
+EXPOSE 8484
 ENTRYPOINT["/appcontainer/printnode"]
