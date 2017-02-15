@@ -1,25 +1,24 @@
 version: '2'
 services:
-	app1:
-		build: app/Dockerfile
-		expose:
-		 - "8484"
-		networks:
-		 - network1
-	app2:
-		build: app/Dockerfile
-		expose:
-		 - "8484"
-		networks:
-		 - network2
-	nginxapp: 
-		build: nginx/Dockerfile
-		expose: 
-		 - "8080"
-		networks:
-		 - network1
-		 - network2
+ app1:
+  build: app/Dockerfile
+  expose:
+   - "8484"
+  networks:
+   - network1
+ app2:
+  build: app/Dockerfile
+  expose:
+   - "8484"
+  networks:
+   - network2
+ nginxapp: 
+  build: nginx/Dockerfile
+  expose: 
+   - "8080"
+  networks:
+   - network1
+   - network2
 networks:
-	network1:
-	network2:
-		
+ network1:
+ network2:
