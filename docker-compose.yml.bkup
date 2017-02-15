@@ -11,7 +11,14 @@ services:
   expose:
    - "8484"
   networks:
+   - network2
+ nginxapp: 
+  build: nginx/
+  expose: 
+   - "8080"
+  networks:
    - network1
+   - network2
 networks:
  network1:
  network2:
