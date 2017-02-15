@@ -1,0 +1,9 @@
+FROM alpine:3.5
+ENV APP_1 1.0
+#RUN groupadd appuser && useradd appuser -r -s appuser appuser
+RUN mkdir /appcontainer
+COPY ["printnode", "/appcontainer/printnode"]
+#USER appuser
+EXPOSE 8484
+CMD whoami
+#ENTRYPOINT ["/appcontainer/printnode"]
