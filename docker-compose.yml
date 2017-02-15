@@ -1,19 +1,10 @@
 version: '2'
 services:
 	app1:
-		build: app1.dockerfile
+		build: app/Dockerfile
 		expose:
 		-"8484"
 	app2:
-		build: app2.dockerfile
+		build: app/Dockerfile
 		expose:
 		-"8484"
-	drone-server:
-		image: drone/drone:0.5
-		environment:
-		-DRONE_GITHUB=true
-		-DRONE_REPO_LINK=http://
-		-DRONE_GITHUB_CLIENT=
-		-DRONE_GITHUB_SECRET=
-		-DEBUG=true
-		
