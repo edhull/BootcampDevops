@@ -1,2 +1,2 @@
 #!/bin/bash
-tail ./logs/nginx/accessproxy.log | logstalgia --sync
+tail -f logs/nginx/accessproxy.log | ./logstalgia/logstalgia 

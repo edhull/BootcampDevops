@@ -1,0 +1,279 @@
+.TH Logstalgia 1
+.SH NAME
+Logstalgia -  a web server access log visualization tool
+.SH SYNOPSIS
+\fIlogstalgia\fR
+[options] logfile
+.SH DESCRIPTION
+\fIlogstalgia\fR
+is a visualization tool that replays or streams web server access logs as a retro arcade game simulation.
+.SH REQUIREMENTS
+\fIlogstalgia\fR's display is rendered using OpenGL and requires a 3D accelerated video card to run.
+
+Logstalgia supports several standardized access.log formats used by web servers such as Apache and Nginx (see 'SUPPORTED LOG FORMATS' below).
+
+As \fIlogstalgia\fR is designed to playback logs in real time you will need a log from a fairly busy webserver to achieve interesting results (eg 100s of requests each minute).
+.SH OPTIONS
+.TP
+\fB\-f\fR
+Fullscreen.
+.TP
+\fB\-WIDTHxHEIGHT\fR
+Set the window size. If \-f is also supplied, will attempt to set the video mode to this also. Add ! to make the window non-resizable.
+.TP
+\fB\-b, \-\-background\fR
+Background colour in hex.
+.TP
+\fB\-x  \-\-full\-hostnames\fR
+Show full request ip/hostname.
+.TP
+\fB\-s, \-\-simulation-speed\fR
+Simulation speed. Defaults to 1 (1 second-per-second).
+.TP
+\fB\-p, \-\-pitch-speed\fR
+Speed balls travel across the screen (defaults to 0.15).
+.TP
+\fB\-u, \-\-update\-rate\fR
+Page Summary update speed. Defaults to 5 (5 seconds).
+.TP
+\fB\-g name,regex,percent[,colour]\fR
+Creates a new named summarizer group for requests for which a specified attribute (HOST, URI or response CODE) matches a regular expression. Percent specifies a vertical percentage of screen to use.
+
+A colour may optionally be supplied in hexadecimal format (eg FF0000 for red) which will be applied to all labels and request balls matched to the group.
+
+Examples:
+
+ \-g "HTML,URI=html?$,30"
+ \-g "Lan,HOST=^192,30"
+ \-g "Success,CODE=^[23],30"
+
+If no groups are specified, the default groups are Images (image files), CSS (.css files) and Scripts (.js files).
+
+If there is enough space remaining a catch-all group 'Misc' will appear as the last group.
+.TP
+\fB\-\-paddle\-mode MODE\fR
+Paddle mode (pid, vhost, single).
+
+\fBvhost\fR  \- separate paddle for each virtual host in the log file.
+
+\fBpid\fR    \- separate paddle for each process id in the log file.
+
+\fBsingle\fR \- single paddle (the default).
+.TP
+\fB\-\-paddle\-position POSITION\fR
+Paddle position as a fraction of the view width (0.25 - 0.75).
+.TP
+\fB\-\-sync\fR
+Read from STDIN, ignoring entries before the current time.
+.TP
+\fB\-\-from, \-\-to 'YYYY\-MM\-DD hh:mm:ss +tz'\fR
+Show entries from a specific time period.
+
+If a time zone offset isn't specified the local time zone is used.
+
+Example accepted formats:
+
+    "2012-06-30"
+    "2012-06-30 12:00"
+    "2012-06-30 12:00:00 +12"
+.TP
+\fB\-\-start\-position POSITION\fR
+Begin at some position in the log file (between 0.0 and 1.0).
+.TP
+\fB\-\-stop\-position POSITION\fR
+Stop at some position.
+.TP
+\fB\-\-no\-bounce\fR
+No bouncing.
+.TP
+\fB\-\-hide\-response\-code\fR
+Hide response code.
+.TP
+\fB\-\-hide\-paddle\fR
+Hide paddle.
+.TP
+\fB\-\-hide\-paddle\-tokens\fR
+Hide paddle tokens shown in multi-paddle modes.
+.TP
+\fB\-\-hide\-url\-prefix\fR
+Hide URL protocol and hostname prefix of requests.
+.TP
+\fB\-\-disable\-auto\-skip\fR
+Disable automatic skipping of empty time periods.
+.TP
+\fB\-\-disable\-progress\fR
+Disable the progress bar.
+.TP
+\fB\-\-disable\-glow\fR
+Disable the glow effect.
+.TP
+\fB\-\-font\-size SIZE\fR
+Font size.
+.TP
+\fB\-\-glow\-duration\fR
+Duration of the glow (between 0.0 and 1.0).
+.TP
+\fB\-\-glow\-multiplier\fR
+Adjust the amount of glow.
+.TP
+\fB\-\-glow\-intensity\fR
+Intensity of the glow.
+.TP
+\fB\-o, -\-output\-ppm\-stream FILE\fR
+Write frames as PPM to a file ('\-' for STDOUT).
+.TP
+\fB\-r, -\-output\-framerate FPS\fR
+Framerate of output (used with \-\-output\-ppm\-stream).
+.TP
+\fB\-\-load\-config CONFIG_FILE\fR
+Load a config file.
+.TP
+\fB\-\-save\-config CONFIG_FILE\fR
+Save a config file with the current options.
+.TP
+\fBlogfile\fR
+The path to the access log file to read or '\-' if you wish to supply log entries via STDIN.
+
+.SH EXAMPLES
+
+Watch an example access.log using the default settings:
+
+.ti 10
+\fIlogstalgia\fR SDLAPP_RESOURCE_DIR/example.log
+
+Watch the live access.log, starting from the most recent batch of entries in the log (requires tail). Note than '\-' at the end is required for
+\fIlogstalgia\fR
+to know it needs to read from STDIN:
+
+.ti 10
+tail \-f /var/log/apache2/access.log | \fIlogstalgia\fR \-
+
+To follow the log in real time, use the \-\-sync option. This will start reading from the next entry received on STDIN:
+
+.ti 10
+tail \-f /var/log/apache2/access.log | \fIlogstalgia\fR \-\-sync
+
+Watch a remote access.log via ssh:
+
+.ti 10
+ssh user@example.com tail \-f /var/log/apache2/access.log | \fIlogstalgia\fR \-\-sync
+
+.SH SUPPORTED LOG FORMATS
+
+Logstalgia supports the following standardized log formats used by web servers like Apache and Nginx:
+
+.ti 10
+NCSA Common Log Format (CLF)
+.ti 10
+    "%h %l %u %t \\"%r\\" %\>s %b"
+
+.ti 10
+NCSA Common Log Format with Virtual Host
+.ti 10
+    "%v %h %l %u %t \\"%r\\" %\>s %b"
+
+.ti 10
+NCSA extended/combined log format
+.ti 10
+    "%h %l %u %t \\"%r\\" %\>s %b \\"%{Referer}i\\" \\"%{User-agent}i\\""
+
+.ti 10
+NCSA extended/combined log format with Virtual Host
+.ti 10
+    "%v %h %l %u %t \\"%r\\" %\>s %b \\"%{Referer}i\\" \\"%{User-agent}i\\""
+
+The process id (%P), or some other identifier, may be included as an additional field at the end of the entry. This can be used with '\-\-paddle\-mode pid' where a separate paddle will be created for each unique value in this field.
+
+.SH CUSTOM LOG FORMAT
+
+Logstalgia now supports a pipe ('|') delimited custom log file format:
+
+.ti 10
+timestamp       - unix timestamp of the request date.
+.ti 10
+hostname        - hostname of the request
+.ti 10
+path            - path requested
+.ti 10
+response_code   - the response code from the webserver (eg 200)
+.ti 10
+response_size   - the size of the response in bytes
+
+The following are optional:
+
+.ti 10
+success         - 1 or 0 to indicate if successful
+.ti 10
+response_colour - response colour in hexidecial (#FFFFFF) format
+.ti 10
+referrer url    - the referrer url
+.ti 10
+user agent      - the user agent
+.ti 10
+virtual host    - the virtual host (to use with \-\-paddle-mode vhost)
+.ti 10
+pid             - process id or some other identifier (\-\-paddle-mode pid)
+
+If success or response_colour are not provided, they will be derived from the response_code using the normal HTTP conventions (code < 400 = success).
+
+.SH RECORDING VIDEOS
+
+See the guide on the homepage for examples of recording videos with Logstalgia:
+
+.ti 10
+http://code.google.com/p/logstalgia/wiki/Videos
+
+.SH INTERFACE
+The time shown in the top left of the screen is set initially from the first log entry read and is incremented according to the simulation speed (\-s).
+
+The counter in the bottom right hand corner shows the number of requests displayed since the start of the current session.
+
+Pressing space at any time will pause/unpause the simulation. While paused you may use the mouse to inspect the detail of individual requests.
+
+Interactive keyboard commands:
+.sp
+.ti 10
+(q) Debug Information
+.ti 10
+(c) Displays Logstalgia logo
+.ti 10
+(n) Jump forward in time to next log entry.
+.ti 10
+(+-) Adjust simulation speed.
+.ti 10
+(<>) Adjust pitch speed.
+.ti 10
+(F12) Screenshot
+.ti 10
+(Alt+Enter) Fullscreen toggle
+.ti 10
+(ESC) Quit
+
+.SH AUTHOR
+.nf
+ Written by Andrew Caudwell
+
+ Project Homepage: http://code.google.com/p/logstalgia/
+.SH COPYRIGHT
+.nf
+ Copyright (C) 2008 Andrew Caudwell (acaudwell@gmail.com)
+
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version
+ 3 of the License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+.fi
+.SH ACKNOWLEDGEMENTS
+.nf
+ Catalyst IT (catalyst.net.nz)
+
+ For supporting the development and promotion of Logstalgia!
+.fi
