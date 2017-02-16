@@ -1,24 +1,33 @@
 version: '2'
+
 services:
- app1:
+ appx:
+  container_name: appx
+  hostname: appx
   build: app/
+  image: appx
+  read_only: true
   expose:
    - "8484"
-  networks:
-   - network1
- app2:
+ appy:
+  container_name: appy
+  hostname: appy
   build: app/
+  image: appy
+  read_only: true
   expose:
    - "8484"
-  networks:
-   - network2
- nginxapp: 
-  build: nginx/
-  expose: 
-   - "8080"
-  networks:
-   - network1
-   - network2
-networks:
- network1:
- network2:
+
+ nginxapp:
+  image: nginx 
+  hostname: nginx_balancer
+  volumes: # mount custom config at runtime 
+    - ./nginx/nginx.conf:/etc/nginx/nginx.conf 
+  links:
+    - appx
+    - appy
+  ports: 
+    - 8080:80   
+  depends_on:
+    - appx
+    - appy
