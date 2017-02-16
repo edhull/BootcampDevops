@@ -22,7 +22,7 @@ func main() {
     http.ListenAndServe(":8484", nil)
 }
 ```
-
+![Architecture](https://raw.githubusercontent.com/edhull/BootcampDevops/master/architecture.jpeg)
 ### Requirements:
 Docker 1.10+ & Docker-Compose (2)
 
