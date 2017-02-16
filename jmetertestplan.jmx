@@ -18,7 +18,7 @@
           <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">1</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">5</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
         <longProp name="ThreadGroup.start_time">1487260235000</longProp>
         <longProp name="ThreadGroup.end_time">1487260235000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -30,6 +30,11 @@
           <stringProp name="ConstantTimer.delay">2</stringProp>
           <stringProp name="RandomTimer.range">500.0</stringProp>
         </UniformRandomTimer>
+        <hashTree/>
+        <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Gaussian Random Timer" enabled="true">
+          <stringProp name="ConstantTimer.delay">30</stringProp>
+          <stringProp name="RandomTimer.range">100.0</stringProp>
+        </GaussianRandomTimer>
         <hashTree/>
         <PoissonRandomTimer guiclass="PoissonRandomTimerGui" testclass="PoissonRandomTimer" testname="Poisson Random Timer" enabled="true">
           <stringProp name="ConstantTimer.delay">1</stringProp>

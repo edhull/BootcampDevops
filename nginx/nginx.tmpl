@@ -188,7 +188,7 @@ server {
 		include uwsgi_params;
 		uwsgi_pass {{ trim $proto }}://{{ trim $upstream_name }};
 		{{ else }}
-		proxy_pass {{ trim $proto }}://{{ trim $upstream_name }};
+		proxy_pass {{ trim $proto }}://{{ trim $upstream_name }}/;
 		{{ end }}
 		{{ if (exists (printf "/etc/nginx/htpasswd/%s" $host)) }}
 		auth_basic	"Restricted {{ $host }}";
@@ -223,7 +223,8 @@ server {
 		include uwsgi_params;
 		uwsgi_pass {{ trim $proto }}://{{ trim $upstream_name }};
 		{{ else }}
-		proxy_pass {{ trim $proto }}://{{ trim $upstream_name }};
+		proxy_pass {{ trim $proto }}://{{ trim $upstream_name }}/;
+		proxy_set_header Host $host;
 		{{ end }}
 		{{ if (exists (printf "/etc/nginx/htpasswd/%s" $host)) }}
 		auth_basic	"Restricted {{ $host }}";
