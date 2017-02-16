@@ -35,4 +35,10 @@ $ cd BootcampDevops
 $ docker-compose scale appy=2 nginx-proxy=1
 $ for i in {1..5}; do curl localhost && echo; done #To demonstrate it works!
 ```
+### Fun stuff!
+As the nginx log files are exposed locally to the host, we can visualise what's happening natively. 
 
+By piping the logfiles through [Logstalgia](http://logstalgia.io/) (and using custom formatted nginx logs) we can see the distribution of traffic across the containers. Traffic can be simulated using JMeter or any other traffic load simulator and will produce a visualisation similar to the below:
+
+ 
+![Logstalgia](https://raw.githubusercontent.com/edhull/BootcampDevops/master/logstalgia.jpeg)
