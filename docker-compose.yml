@@ -10,6 +10,11 @@ services:
   environment:
    - VIRTUAL_HOST=appy.local
    - VIRTUAL_PORT=8484
+  cap_drop:
+   - chown
+   - kill
+   - setfcap
+   - setuid
  nginx-proxy:
   image: jwilder/nginx-proxy
   container_name: nginx-proxy
