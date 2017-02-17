@@ -32,7 +32,7 @@ Feel free to change the scaling on the application servers to however many insta
 ```sh
 $ git clone https://github.com/edhull/BootcampDevops
 $ cd BootcampDevops
-$ docker-compose scale appy=2 nginx-proxy=1
+$ docker-compose -d up && docker-compose scale appy=2 nginx-proxy=1
 $ for i in {1..5}; do curl localhost && echo; done #To demonstrate it works!
 ```
 ### Fun stuff!
