@@ -42,3 +42,11 @@ By piping the logfiles through [Logstalgia](http://logstalgia.io/) (and using cu
 
  
 ![Logstalgia](https://raw.githubusercontent.com/edhull/BootcampDevops/master/logstalgia.jpeg)
+
+
+### Monitoring
+A monitoring solution based on [Dockprom](https://github.com/stefanprodan/dockprom) was experimented with to monitor the state of containers and a host system. The system monitors the resource usage by individual containers using Nodeexporter and cAdvisor, the host resource usage with Prometheus and produces a graphical representation of data with Grafana. The monitoring section is currently work in progress.
+
+[![yay2.png](https://s16.postimg.org/q9ai605kl/yay2.png)](https://postimg.org/image/lnedxnk1d/)
+
+
