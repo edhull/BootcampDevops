@@ -7,27 +7,8 @@ networks:
 volumes:
     prometheus_data: {}
     grafana_data: {}
-
-services:
- appy:
-  build: app/
-  image: appy
-  read_only: true
-  expose:
-   - "8484"
-  environment:
-   - VIRTUAL_HOST=appy.local
-   - VIRTUAL_PORT=8484
- nginx-proxy:
-  image: jwilder/nginx-proxy
-  container_name: nginx-proxy
-  ports:
-    - "80:80"
-  volumes:
-    - /var/run/docker.sock:/tmp/docker.sock:ro
-    - ./nginx/nginx.tmpl:/app/nginx.tmpl
-    - ./logs/nginx/:/var/log/nginx/:rw
- prometheus:
+    
+prometheus:
   image: prom/prometheus
   container_name: prometheus
   volumes:
